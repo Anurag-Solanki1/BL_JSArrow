@@ -35,19 +35,29 @@ class AddressBook {
     }
   }
 
-  sortContactsByName() {
+  sortContactsBy(field) {
     if (this.contacts.length === 0) {
       console.log("Address Book is empty. Nothing to sort.");
       return;
     }
 
+    const validFields = ["city", "state", "zip"];
+    if (!validFields.includes(field)) {
+      console.log(
+        "Invalid field. Please choose from 'city', 'state', or 'zip'."
+      );
+      return;
+    }
+
     this.contacts.sort((a, b) => {
-      let nameA = a.firstName.toLowerCase();
-      let nameB = b.firstName.toLowerCase();
-      return nameA.localeCompare(nameB);
+      let valueA = a[field].toLowerCase();
+      let valueB = b[field].toLowerCase();
+      return valueA.localeCompare(valueB);
     });
 
-    console.log("\nContacts Sorted Alphabetically by First Name:");
+    console.log(
+      `\nContacts Sorted by ${field.charAt(0).toUpperCase() + field.slice(1)}:`
+    );
     this.displayContacts();
   }
 }
@@ -82,8 +92,8 @@ try {
     "Emily",
     "Clark",
     "789 Maple St",
-    "New York",
-    "NewYork",
+    "Chicago",
+    "Illinois",
     "789456",
     "9012345678",
     "emily.clark@example.com"
@@ -95,8 +105,14 @@ try {
 
   addressBook.displayContacts();
 
-  console.log("\nSorting Contacts Alphabetically by Name:");
-  addressBook.sortContactsByName();
+  console.log("\nSorting Contacts by City:");
+  addressBook.sortContactsBy("city");
+
+  console.log("\nSorting Contacts by State:");
+  addressBook.sortContactsBy("state");
+
+  console.log("\nSorting Contacts by Zip Code:");
+  addressBook.sortContactsBy("zip");
 } catch (error) {
   console.error(error.message);
 }
